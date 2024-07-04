@@ -1,62 +1,64 @@
 import { useEffect, useState } from "react";
-import Block, { BlockProps } from "./components/Block";
 import Header from "./components/Header";
-import Terminal from "./components/Terminal";
+import TabPage, { TabProps } from "./Pages/TabPage";
 
 export default function App() {
 
 
-    const [prevBlocks, setPrevBlocks] = useState(initialData);
+    const [Tabs, setTabs] = useState(initialTabs);
+    const tabNames = Tabs.map(item => item.name);
 
     useEffect(() => {
-        const blocks = localStorage.getItem('blocks');
-        if (!blocks) {
-            localStorage.setItem('blocks', JSON.stringify(initialData))
+        const tabs = localStorage.getItem('tabs');
+        if (!tabs) {
+            localStorage.setItem('tabs', JSON.stringify(initialTabs))
             return;
         }
-        console.log(JSON.parse(blocks));
-        setPrevBlocks(JSON.parse(blocks));
+        console.log(JSON.parse(tabs));
+        setTabs(JSON.parse(tabs));
     }, [])
 
     return (
         <div className="min-h-screen bg-black p-2">
             <div className="flex flex-col bg-white rounded min-h-screen py-2">
 
-                <Header />
+                <Header TabTitles={tabNames} />
 
-                <div>
-                    {prevBlocks.map(item => (
-                        <Block {...item} />
-                    ))}
-                </div>
+                {Tabs.map(tab => (
+                    <TabPage {...tab} />
+                ))}
 
-                <Terminal location={"~/code/mern/react-terminal/src"} setPrevBlocks={setPrevBlocks} />
 
             </div>
         </div>
     )
 };
 
-
-const initialData: BlockProps[] = [
+const initialTabs: TabProps[] = [
     {
-        id: 1,
-        type: 'terminal',
-        location: "~/code/mern/react-terminal",
-        input: "ls src/",
-        output: "app.tsx   assets   components   index.css   main.tsx   Pages   utils   vite-env.d.ts   xtermTerminal.tsx",
-    },
-    {
-        id: 2,
-        type: 'terminal',
-        location: "~/code/mern/react-terminal",
-        input: "cd src/",
-    },
-    {
-        id: 3,
-        type: 'terminal',
-        location: "~/code/mern/react-terminal/src",
-        input: "ls app.tsx",
-        output: "Block  Header",
+        tabId: 1,
+        name: "",
+        blocks: [
+            {
+                id: 1,
+                type: 'terminal',
+                location: "~/code/mern/react-terminal",
+                input: "ls src/",
+                output: "app.tsx   assets   components   index.css   main.tsx   Pages   utils   vite-env.d.ts   xtermTerminal.tsx",
+            },
+            {
+                id: 2,
+                type: 'terminal',
+                location: "~/code/mern/react-terminal",
+                input: "cd src/",
+            },
+            {
+                id: 3,
+                type: 'terminal',
+                location: "~/code/mern/react-terminal/src",
+                input: "ls app.tsx",
+                output: "Block  Header",
+            }
+        ]
     }
 ]

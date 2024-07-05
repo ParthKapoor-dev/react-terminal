@@ -2,42 +2,10 @@ import { useEffect, useState } from "react";
 import Header from "./components/Header";
 import TabPage, { TabProps } from "./Pages/TabPage";
 
-export default function App() {
-
-
-    const [Tabs, setTabs] = useState(initialTabs);
-    const tabNames = Tabs.map(item => item.name);
-
-    useEffect(() => {
-        const tabs = localStorage.getItem('tabs');
-        if (!tabs) {
-            localStorage.setItem('tabs', JSON.stringify(initialTabs))
-            return;
-        }
-        console.log(JSON.parse(tabs));
-        setTabs(JSON.parse(tabs));
-    }, [])
-
-    return (
-        <div className="min-h-screen bg-black p-2">
-            <div className="flex flex-col bg-white rounded min-h-screen py-2">
-
-                <Header TabTitles={tabNames} />
-
-                {Tabs.map(tab => (
-                    <TabPage {...tab} />
-                ))}
-
-
-            </div>
-        </div>
-    )
-};
-
 const initialTabs: TabProps[] = [
     {
         tabId: 1,
-        name: "",
+        name: "~/code/mern/terminal",
         blocks: [
             {
                 id: 1,
@@ -61,4 +29,29 @@ const initialTabs: TabProps[] = [
             }
         ]
     }
-]
+];
+
+export default function App() {
+    const [Tabs, setTabs] = useState<TabProps[]>(() => {
+        const savedTabs = localStorage.getItem('tabs');
+        return savedTabs ? JSON.parse(savedTabs) : initialTabs;
+    });
+    const [currentTab, setCurrentTab] = useState<TabProps>(Tabs[0]);
+
+    useEffect(() => {
+        localStorage.setItem('tabs', JSON.stringify(Tabs));
+    }, [Tabs]);
+
+    useEffect(() => {
+        setCurrentTab(Tabs.find(tab => tab.tabId === currentTab.tabId) || Tabs[0]);
+    }, [Tabs]);
+
+    return (
+        <div className="max-h-screen max-w-screen w-screen h-screen bg-black p-2 overflow-hidden">
+            <div className="flex flex-col bg-white rounded h-full py-2 overflow-scroll">
+                <Header setTabs={setTabs} Tabs={Tabs} currentTab={currentTab} setCurrentTab={setCurrentTab} />
+                <TabPage {...currentTab} setTabs={setTabs} />
+            </div>
+        </div>
+    );
+}

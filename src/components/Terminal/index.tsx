@@ -1,13 +1,16 @@
 import { useRef, useState } from "react";
 import { BlockProps } from "../Block";
 import { cn } from "../../utils/cn";
+import { TabProps } from "../../Pages/TabPage";
 
 interface TerminalProps {
     location: string;
-    setPrevBlocks: React.Dispatch<React.SetStateAction<BlockProps[]>>;
+    setTabs: React.Dispatch<React.SetStateAction<TabProps[]>>;
+    setShowBlocks: React.Dispatch<React.SetStateAction<BlockProps[]>>;
+    tabId: number;
 }
 
-export default function Terminal({ location, setPrevBlocks }: TerminalProps) {
+export default function Terminal({ location, setTabs, setShowBlocks, tabId }: TerminalProps) {
     const [input, setInput] = useState("");
     const [showDropdown, setShowDropdown] = useState(false);
     const [dropdownPosition, setDropdownPosition] = useState({ left: 0 });
@@ -26,10 +29,11 @@ export default function Terminal({ location, setPrevBlocks }: TerminalProps) {
         } else if (key === 'Enter') {
             event.preventDefault();  // Prevent form submission
             handleSuggestionClicked(samplePopup[selected]);
-        } else if (key == 'Escape') {
+            setSelected(0);
+        } else if (key === 'Escape') {
             setShowDropdown(false);
+            setSelected(0);
         }
-
     }
 
     function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -41,11 +45,21 @@ export default function Terminal({ location, setPrevBlocks }: TerminalProps) {
             input: input,
             output: "app.tsx   assets   components   index.css   main.tsx   Pages   utils   vite-env.d.ts   xtermTerminal.tsx",
         };
-        setPrevBlocks(prev => {
-            const updatedBlocks = [...prev, newBlock];
-            localStorage.setItem('blocks', JSON.stringify(updatedBlocks));
-            return updatedBlocks;
+
+        setTabs(prev => {
+            const updatedTabs = prev.map(tab => {
+                if (tab.tabId === tabId) {
+                    const newTab = { ...tab, blocks: [...tab.blocks, newBlock] };
+                    setShowBlocks(newTab.blocks);
+                    return newTab;
+                }
+                return tab;
+            });
+            localStorage.setItem('tabs', JSON.stringify(updatedTabs));
+            console.log('Updated Tabs:', updatedTabs);
+            return updatedTabs;
         });
+
         setInput("");  // Clear the input field
         setShowDropdown(false);  // Hide dropdown after submission
     }
@@ -100,7 +114,7 @@ export default function Terminal({ location, setPrevBlocks }: TerminalProps) {
                         style={{ left: dropdownPosition.left }}
                     >
                         {samplePopup.map((item, index) => (
-                            <div key={index} className={cn("py-1 px-2 hover:bg-gray-200 cursor-pointer", selected === index && "bg-gray-200")} onClick={() => handleSuggestionClicked(item)}>
+                            <div key={index} className={cn("py-1 px-4 hover:bg-gray-200 cursor-pointer", selected === index && "bg-gray-200")} onClick={() => handleSuggestionClicked(item)}>
                                 {item}
                             </div>
                         ))}

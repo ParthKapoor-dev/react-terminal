@@ -21,7 +21,7 @@ export default function Header({ Tabs, addTabs, setCurrentTab, currentTab }: Hea
     }
 
     return (
-        <div className="h-fit w-full px-4 py-1 flex items-center justify-between">
+        <div className=" px-4 py-1 flex items-center justify-between">
             <div className="flex gap-2 items-center overflow-scroll">
                 {Tabs.map((item) => (
                     <HeaderTab

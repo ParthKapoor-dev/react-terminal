@@ -4,6 +4,7 @@ import { cn } from "./utils/cn";
 import { TabProps } from "./types/Tabs";
 import { AppState, Section } from "./types/app";
 import { initialApp } from "./DummyData/initialApp";
+import Providers from "./Providers";
 
 export default function App() {
 
@@ -20,7 +21,9 @@ export default function App() {
 
     return (
         <div className="h-screen w-screen">
-            <Child state={app.windows[0]} setApp={setApp} parentIds={[]} />
+            <Providers>
+                <Child state={app.windows[0]} setApp={setApp} parentIds={[]} />
+            </Providers>
         </div>
     )
 }

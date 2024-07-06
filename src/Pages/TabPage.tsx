@@ -9,15 +9,6 @@ interface TabPageProps extends TabProps {
 }
 
 export default function TabPage({ blocks, tabId, name, addBlock }: TabPageProps) {
-    // const [ShowBlocks, setShowBlocks] = useState<BlockProps[]>(blocks);
-
-    // useEffect(() => {
-    //     setShowBlocks(blocks);
-    // }, [blocks]);
-
-    // useEffect(() => {
-    //     localStorage.setItem('blocks', JSON.stringify(ShowBlocks));
-    // }, [ShowBlocks]);
 
     return (
         <div>

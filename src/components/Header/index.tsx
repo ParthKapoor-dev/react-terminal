@@ -1,5 +1,4 @@
 import HeaderTab from "./tab";
-import { useEffect } from "react";
 import { TabProps } from "../../types/Tabs";
 
 interface HeaderProps {
@@ -22,7 +21,7 @@ export default function Header({ Tabs, addTabs, setCurrentTab, currentTab }: Hea
     }
 
     return (
-        <div className="h-fit w-screen px-4 py-1 flex items-center justify-between">
+        <div className="h-fit w-full px-4 py-1 flex items-center justify-between">
             <div className="flex gap-2 items-center overflow-scroll">
                 {Tabs.map((item) => (
                     <HeaderTab
@@ -32,7 +31,7 @@ export default function Header({ Tabs, addTabs, setCurrentTab, currentTab }: Hea
                         setCurrentTab={setCurrentTab}
                     />
                 ))}
-                <div className="text-2xl px-4 rounded hover:bg-sky-100 cursor-pointer" onClick={handleAddTab}>
+                <div className="text-2xl px-4 rounded hover:bg-sky-100 cursor-pointer dark:hover:bg-cyan-800" onClick={handleAddTab}>
                     +
                 </div>
             </div>

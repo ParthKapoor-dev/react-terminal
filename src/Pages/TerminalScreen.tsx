@@ -30,8 +30,8 @@ export default function TerminalScreen({ Tabs, setTabs }: TerminalScreenProps) {
     }
 
     return (
-        <div className="h-screen bg-black p-1 overflow-hidden">
-            <div className="flex flex-col bg-white rounded h-full py-2 overflow-scroll">
+        <div className="h-screen bg-black dark:bg-zinc-700 p-1 overflow-hidden">
+            <div className="flex flex-col bg-white dark:bg-black h-full py-2 overflow-scroll rounded px-2">
                 <Header addTabs={addTabs} Tabs={Tabs} currentTab={currentTab} setCurrentTab={setCurrentTab} />
                 <TabPage {...currentTab} addBlock={addBlock} />
             </div>

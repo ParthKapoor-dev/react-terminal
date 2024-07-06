@@ -82,15 +82,15 @@ export default function Terminal({ location, tabId, addBlock }: TerminalProps) {
     }
 
     return (
-        <div className="py-4 px-6 border-2 border-neutral-200 text-lg rounded-lg m-2">
+        <div className="py-4 px-6 border-2 border-neutral-200 dark:border-neutral-800 text-lg rounded-lg m-2 dark:bg-black">
             <form className="flex gap-2 relative" onSubmit={handleSubmit}>
-                <div className="text-purple-800 font-semibold" ref={locationRef}>
+                <div className=" text-purple-700 dark:text-purple-400 font-semibold" ref={locationRef}>
                     {location} $
                 </div>
                 <input
                     type="text"
                     placeholder="type your command here"
-                    className="focus-visible:outline-none w-[60rem]"
+                    className="focus-visible:outline-none w-[20rem] dark:bg-black"
                     value={input}
                     onChange={handleChange}
                     onKeyDown={handleKeys}
@@ -98,11 +98,11 @@ export default function Terminal({ location, tabId, addBlock }: TerminalProps) {
                 />
                 {showDropdown && (
                     <div
-                        className="absolute bg-white border border-gray-300 mt-1 p-2 rounded shadow-lg z-10"
+                        className="absolute bg-white border border-gray-300 mt-1 p-2 rounded shadow-lg z-10 dark:bg-black dark:border-neutral-800"
                         style={{ left: dropdownPosition.left }}
                     >
                         {samplePopup.map((item, index) => (
-                            <div key={index} className={cn("py-1 px-4 hover:bg-gray-200 cursor-pointer", selected === index && "bg-gray-200")} onClick={() => handleSuggestionClicked(item)}>
+                            <div key={index} className={cn("py-1 px-4 hover:bg-gray-200 dark:hover:bg-neutral-800 cursor-pointer", selected === index && "bg-gray-200 dark:bg-neutral-800")} onClick={() => handleSuggestionClicked(item)}>
                                 {item}
                             </div>
                         ))}

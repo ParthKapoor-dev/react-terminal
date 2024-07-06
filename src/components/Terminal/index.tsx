@@ -1,16 +1,16 @@
 import { useRef, useState } from "react";
-import { BlockProps } from "../Block";
 import { cn } from "../../utils/cn";
-import { TabProps } from "../../Pages/TabPage";
+import { TabProps, BlockProps } from "../../types/Tabs";
+
 
 interface TerminalProps {
     location: string;
-    setTabs: React.Dispatch<React.SetStateAction<TabProps[]>>;
-    setShowBlocks: React.Dispatch<React.SetStateAction<BlockProps[]>>;
     tabId: number;
+    addBlock: (newBlock: BlockProps) => void;
+    // setShowBlocks: React.Dispatch<React.SetStateAction<BlockProps[]>>;
 }
 
-export default function Terminal({ location, setTabs, setShowBlocks, tabId }: TerminalProps) {
+export default function Terminal({ location, tabId, addBlock }: TerminalProps) {
     const [input, setInput] = useState("");
     const [showDropdown, setShowDropdown] = useState(false);
     const [dropdownPosition, setDropdownPosition] = useState({ left: 0 });
@@ -46,19 +46,7 @@ export default function Terminal({ location, setTabs, setShowBlocks, tabId }: Te
             output: "app.tsx   assets   components   index.css   main.tsx   Pages   utils   vite-env.d.ts   xtermTerminal.tsx",
         };
 
-        setTabs(prev => {
-            const updatedTabs = prev.map(tab => {
-                if (tab.tabId === tabId) {
-                    const newTab = { ...tab, blocks: [...tab.blocks, newBlock] };
-                    setShowBlocks(newTab.blocks);
-                    return newTab;
-                }
-                return tab;
-            });
-            localStorage.setItem('tabs', JSON.stringify(updatedTabs));
-            console.log('Updated Tabs:', updatedTabs);
-            return updatedTabs;
-        });
+        addBlock(newBlock);
 
         setInput("");  // Clear the input field
         setShowDropdown(false);  // Hide dropdown after submission

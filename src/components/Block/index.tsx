@@ -1,12 +1,4 @@
-
-
-export interface BlockProps {
-    id: number,
-    type: 'chat ' | 'terminal',
-    input: string,
-    output?: string ,
-    location: string
-}
+import { BlockProps } from "../../types/Tabs";
 
 export default function Block({ id, type, input, output, location }: BlockProps) {
     return (

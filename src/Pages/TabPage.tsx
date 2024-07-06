@@ -1,36 +1,32 @@
 import { useEffect, useState } from "react";
-import Block, { BlockProps } from "../components/Block";
+import Block from "../components/Block";
 import Terminal from "../components/Terminal";
+import { BlockProps, TabProps } from "../types/Tabs";
 
-export interface TabProps {
-    tabId: number;
-    name: string;
-    blocks: BlockProps[];
-}
 
 interface TabPageProps extends TabProps {
-    setTabs: React.Dispatch<React.SetStateAction<TabProps[]>>;
+    addBlock: (newBlock: BlockProps) => void
 }
 
-export default function TabPage({ blocks, tabId, name, setTabs }: TabPageProps) {
-    const [ShowBlocks, setShowBlocks] = useState<BlockProps[]>(blocks);
+export default function TabPage({ blocks, tabId, name, addBlock }: TabPageProps) {
+    // const [ShowBlocks, setShowBlocks] = useState<BlockProps[]>(blocks);
 
-    useEffect(() => {
-        setShowBlocks(blocks);
-    }, [blocks]);
+    // useEffect(() => {
+    //     setShowBlocks(blocks);
+    // }, [blocks]);
 
-    useEffect(() => {
-        localStorage.setItem('blocks', JSON.stringify(ShowBlocks));
-    }, [ShowBlocks]);
+    // useEffect(() => {
+    //     localStorage.setItem('blocks', JSON.stringify(ShowBlocks));
+    // }, [ShowBlocks]);
 
     return (
         <div>
             <div>
-                {ShowBlocks.map(item => (
+                {blocks.map(item => (
                     <Block key={item.id} {...item} />
                 ))}
             </div>
-            <Terminal location={"~/code/mern/react-terminal/src"} setShowBlocks={setShowBlocks} setTabs={setTabs} tabId={tabId} />
+            <Terminal location={"~/code/mern/react-terminal/src"} addBlock={addBlock} tabId={tabId} />
         </div>
     );
 }

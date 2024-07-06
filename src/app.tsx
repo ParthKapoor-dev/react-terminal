@@ -1,57 +1,98 @@
-import { useEffect, useState } from "react";
-import Header from "./components/Header";
-import TabPage, { TabProps } from "./Pages/TabPage";
-
-const initialTabs: TabProps[] = [
-    {
-        tabId: 1,
-        name: "~/code/mern/terminal",
-        blocks: [
-            {
-                id: 1,
-                type: 'terminal',
-                location: "~/code/mern/react-terminal",
-                input: "ls src/",
-                output: "app.tsx   assets   components   index.css   main.tsx   Pages   utils   vite-env.d.ts   xtermTerminal.tsx",
-            },
-            {
-                id: 2,
-                type: 'terminal',
-                location: "~/code/mern/react-terminal",
-                input: "cd src/",
-            },
-            {
-                id: 3,
-                type: 'terminal',
-                location: "~/code/mern/react-terminal/src",
-                input: "ls app.tsx",
-                output: "Block  Header",
-            }
-        ]
-    }
-];
+import { useEffect, useState } from "react"
+import TerminalScreen from "./Pages/TerminalScreen";
+import { cn } from "./utils/cn";
+import { TabProps } from "./types/Tabs";
+import { AppState, Section } from "./types/app";
+import { initialApp } from "./DummyData/initialApp";
 
 export default function App() {
-    const [Tabs, setTabs] = useState<TabProps[]>(() => {
-        const savedTabs = localStorage.getItem('tabs');
-        return savedTabs ? JSON.parse(savedTabs) : initialTabs;
+
+    const [app, setApp] = useState<AppState>(() => {
+        const savedApp = localStorage.getItem('windows');
+        return savedApp ? JSON.parse(savedApp) : { windows: initialApp }
     });
-    const [currentTab, setCurrentTab] = useState<TabProps>(Tabs[0]);
 
     useEffect(() => {
-        localStorage.setItem('tabs', JSON.stringify(Tabs));
-    }, [Tabs]);
-
-    useEffect(() => {
-        setCurrentTab(Tabs.find(tab => tab.tabId === currentTab.tabId) || Tabs[0]);
-    }, [Tabs]);
+        localStorage.setItem('windows', JSON.stringify(app));
+        console.log('The App');
+        console.log(app);
+    }, [app])
 
     return (
-        <div className="max-h-screen max-w-screen w-screen h-screen bg-black p-2 overflow-hidden">
-            <div className="flex flex-col bg-white rounded h-full py-2 overflow-scroll">
-                <Header setTabs={setTabs} Tabs={Tabs} currentTab={currentTab} setCurrentTab={setCurrentTab} />
-                <TabPage {...currentTab} setTabs={setTabs} />
-            </div>
+        <div className="h-screen w-screen">
+            <Child state={app.windows[0]} setApp={setApp} parentIds={[]} />
         </div>
-    );
+    )
+}
+
+interface ChildProps {
+    state: Section
+    setApp: React.Dispatch<React.SetStateAction<AppState>>,
+    parentIds: number[]
+}
+function Child({ state, setApp, parentIds }: ChildProps) {
+
+    function setTabs(newTabs: TabProps[]) {
+        setApp((prevApp) => {
+            const updatedApp = JSON.parse(JSON.stringify(prevApp));
+            const section = findSection(updatedApp.windows, parentIds, state.metadata.id);
+
+            if (section && section.type == 'terminal') {
+                section.data = newTabs
+            };
+
+            console.log(section);
+            console.log(updatedApp);
+
+            return updatedApp;
+        });
+    }
+
+    if (state.type == 'terminal')
+        return (
+            <TerminalScreen Tabs={state.data} setTabs={setTabs} />
+        )
+    else if (state.type == 'parent') {
+        const newParentIds = [...parentIds, state.metadata.id];
+        console.log(newParentIds);
+        return (
+            <div className={cn("flex", state.metadata.split == "ver" && "flex-col")}>
+                {state.children.map(child => (
+                    <Child state={child} setApp={setApp} parentIds={newParentIds} />
+                ))}
+            </div>
+        )
+    }
+    else
+        return null;
+}
+
+
+function findSection(windows: Section[], parentIds: number[], childId: number): Section | null {
+
+    let currentSection: Section | null = null;
+
+    for (const window of windows) {
+        currentSection = findSectionInChildren(window, parentIds, childId, 0);
+        if (currentSection) break;
+    }
+
+    return currentSection;
+}
+
+function findSectionInChildren(node: Section, parentIds: number[], childId: number, level: number): Section | null {
+
+    if (node.type == 'terminal' && node.metadata.id == childId)
+        return node;
+
+    if (node.type == 'parent' && node.metadata.id == parentIds[level]) {
+        for (const child of node.children) {
+            const foundSection = findSectionInChildren(child, parentIds, childId, ++level);
+            if (foundSection) {
+                return foundSection
+            }
+        }
+    };
+
+    return null;
 }

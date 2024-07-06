@@ -1,15 +1,15 @@
-import { useEffect } from "react";
 import HeaderTab from "./tab";
-import { TabProps } from "../../Pages/TabPage";
+import { useEffect } from "react";
+import { TabProps } from "../../types/Tabs";
 
 interface HeaderProps {
     Tabs: TabProps[];
     currentTab: TabProps;
-    setTabs: React.Dispatch<React.SetStateAction<TabProps[]>>;
+    addTabs: (newTab: TabProps) => void,
     setCurrentTab: React.Dispatch<React.SetStateAction<TabProps>>;
 }
 
-export default function Header({ Tabs, setTabs, setCurrentTab, currentTab }: HeaderProps) {
+export default function Header({ Tabs, addTabs, setCurrentTab, currentTab }: HeaderProps) {
 
     function handleAddTab() {
         const newTab: TabProps = {
@@ -17,17 +17,13 @@ export default function Header({ Tabs, setTabs, setCurrentTab, currentTab }: Hea
             name: "NewTab",
             blocks: []
         };
-
-        setTabs(prev => {
-            const updatedTabs = [...prev, newTab];
-            setCurrentTab(newTab); // Set the newly created tab as the current tab
-            return updatedTabs;
-        });
+        addTabs(newTab);
+        setCurrentTab(newTab);
     }
 
     return (
         <div className="h-fit w-screen px-4 py-1 flex items-center justify-between">
-            <div className="flex gap-2 items-center">
+            <div className="flex gap-2 items-center overflow-scroll">
                 {Tabs.map((item) => (
                     <HeaderTab
                         key={item.tabId}

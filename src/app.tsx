@@ -3,7 +3,7 @@ import { AppState, Section } from "./types/app";
 import { initialApp } from "./DummyData/initialApp";
 import Providers from "./Providers";
 import Navbar from "./components/Navbar";
-import Child, { findSection } from "./components/Child";
+import Child from "./components/Child";
 import { TabProps } from "./types/Tabs";
 
 export default function App() {
@@ -39,7 +39,7 @@ export default function App() {
     return (
         <div className="h-screen overflow-hidden w-screen bg-black dark:bg-zinc-900 px-2">
             <Providers>
-                <Navbar handleAddChatbot={handleAddChatbot}/>
+                <Navbar handleAddChatbot={handleAddChatbot} />
                 <Child state={app.windows[0]} setApp={setApp} parentIds={[]} />
             </Providers>
         </div>

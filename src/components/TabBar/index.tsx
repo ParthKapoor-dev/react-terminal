@@ -6,26 +6,16 @@ interface TabBarProps {
     currentTab: TabProps;
     addTabs: (newTab: TabProps) => void,
     setCurrentTab: React.Dispatch<React.SetStateAction<TabProps>>;
+    deleteTab: (tabId: number) => void
 }
 
-export default function TabBar({ Tabs, addTabs, setCurrentTab, currentTab }: TabBarProps) {
+export default function TabBar({ Tabs, addTabs, setCurrentTab, currentTab, deleteTab }: TabBarProps) {
 
     function handleAddTab() {
         const newTab: TabProps = {
             tabId: Date.now(),
             name: "NewTab",
-            type : 'terminal',
-            blocks: []
-        };
-        addTabs(newTab);
-        setCurrentTab(newTab);
-    }
-
-    function handleAddChatbot(){
-        const newTab: TabProps = {
-            tabId: Date.now(),
-            name: "Chat Bot",
-            type : 'chatbot',
+            type: 'terminal',
             blocks: []
         };
         addTabs(newTab);
@@ -41,6 +31,7 @@ export default function TabBar({ Tabs, addTabs, setCurrentTab, currentTab }: Tab
                         tab={item}
                         currentTab={currentTab}
                         setCurrentTab={setCurrentTab}
+                        deleteTab={deleteTab}
                     />
                 ))}
                 <div className="text-2xl px-4 rounded hover:bg-sky-100 cursor-pointer dark:hover:bg-cyan-800" onClick={handleAddTab}>

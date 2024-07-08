@@ -17,7 +17,7 @@ export default function ChatbotPage({  blocks , addChats }: ChatBotScreenProps) 
 
                 <div className="flex flex-col gap-8">
                     {blocks.map(chat => (
-                        <ChatBlock {...chat} />
+                        <ChatBlock {...chat} key={chat.id} />
                     ))}
                 </div>
 

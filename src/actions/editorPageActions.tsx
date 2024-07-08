@@ -46,3 +46,23 @@ export function checkTabTime(Tab: TabProps) {
     const currentTime = new Date();
     return (+currentTime) - (+date);
 }
+
+
+export function onDragOver(
+    event: React.DragEvent<HTMLDivElement>,
+    setDragover: React.Dispatch<React.SetStateAction<Boolean>>
+
+) {
+    setDragover(true);
+    event.preventDefault();
+}
+
+export function onDrop(
+    event: React.DragEvent<HTMLDivElement>,
+    handleAddTabs: (newTab: TabProps) => void,
+    setDragover: React.Dispatch<React.SetStateAction<Boolean>>
+) {
+    setDragover(false);
+    const newTab: TabProps = JSON.parse(event.dataTransfer.getData('text/plain'));
+    handleAddTabs({ ...newTab, tabId: Date.now() });
+}

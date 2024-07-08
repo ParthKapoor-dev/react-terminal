@@ -33,7 +33,7 @@ export default function Child({ state, setApp, parentIds }: ChildProps) {
         return (
             <div className={cn("flex gap-2", state.metadata.split == "ver" && "flex-col")}>
                 {state.children.map(child => (
-                    <Child state={child} setApp={setApp} parentIds={newParentIds} />
+                    <Child state={child} setApp={setApp} parentIds={newParentIds} key={child.metadata.id} />
                 ))}
             </div>
         )

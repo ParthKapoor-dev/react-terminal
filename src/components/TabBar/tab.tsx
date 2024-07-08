@@ -19,11 +19,19 @@ export default function Tab({ tab, currentTab, setCurrentTab, deleteTab }: Heade
         deleteTab(tab.tabId);
     }
 
+    function handleDragStart(event: React.DragEvent<HTMLDivElement>) {
+        event.dataTransfer.setData('text/plain', JSON.stringify(tab));
+    }
+
+    function handleDragEnd(event: React.DragEvent<HTMLDivElement>) {
+        if(event.dataTransfer.dropEffect === 'move')
+            handleDel();
+    }
+
     return (
         <div className={cn(" relative text-sm w-[18rem] h-8 border-2 border-neutral-300 flex justify-center items-center gap-4 py-1 rounded hover:bg-sky-100 duration-300 cursor-pointer dark:hover:bg-cyan-900 dark:border-neutral-800 overflow-hidden",
             currentTab.tabId == tab.tabId ? "border-cyan-400 dark:border-cyan-400 " : "dark:hover:border-cyan-900"
-        )}
-            onClick={handleClick}>
+        )} onClick={handleClick} draggable={true} onDragStart={handleDragStart} onDragEnd={handleDragEnd} >
 
             <div>
                 {tab.name}

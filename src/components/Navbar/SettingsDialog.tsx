@@ -23,22 +23,22 @@ export default function SettingsDialog({ showDialog, setShowDialog }: DialogProp
 
     return (
         <div className={cn("absolute z-10 top-0 left-0 backdrop-blur-sm h-screen w-screen  justify-center items-center", showDialog == true ? "flex" : "hidden")}>
-            <div className="bg-white flex flex-col py-2 px-4 shadow-lg">
-                <button onClick={handleClose}>
+            <div className="bg-white dark:bg-neutral-900 flex flex-col py-2 px-4 shadow-lg w-[30rem] h-[20rem] rounded border-2 border-slate-600 ">
+                <button onClick={handleClose} className="flex justify-end">
                     Close
                 </button>
                 <p className="font-semibold text-lg">
-                    Settings Dialog
+                    Settings
                 </p>
 
-                <div>
+                <div className="flex gap-2 items-center">
 
                     <div>
                         Current Theme is {theme}
                     </div>
 
-                    <button className="bg-black text-white" onClick={handleTheme} >
-                        Change Theme to {theme == 'light' ? "Dark" : "Light"}
+                    <button className="bg-black p-2 rounded border-2 border-slate-600 hover:bg-slate-300 hover:text-black text-white duration-200" onClick={handleTheme} >
+                        {theme == 'light' ? "Dark" : "Light"} Mode
                     </button>
 
                 </div>

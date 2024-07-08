@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import Block from "../components/Block";
 import Terminal from "../components/Terminal";
 import { BlockProps, TabProps } from "../types/Tabs";
@@ -8,7 +7,7 @@ interface TabPageProps extends TabProps {
     addBlock: (newBlock: BlockProps) => void
 }
 
-export default function TabPage({ blocks, tabId, name, addBlock }: TabPageProps) {
+export default function TabPage({ blocks, tabId, addBlock }: TabPageProps) {
 
     return (
         <div>

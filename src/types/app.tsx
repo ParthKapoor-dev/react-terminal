@@ -1,18 +1,12 @@
+import { ChatProps } from "./Chat";
 import { TabProps } from "./Tabs";
 
 export interface AppState {
     windows: Section[]
 }
 
-export type Section = TerminalSection | ParentSection
+export type Section = TerminalSection | ParentSection | ChatBotSection
 
-export interface TerminalSection {
-    type: "terminal",
-    metadata: {
-        id: number;
-    }
-    data: TabProps[]
-}
 
 export interface ParentSection {
     type: "parent",
@@ -21,4 +15,20 @@ export interface ParentSection {
         split: "hor" | "ver"
     },
     children: Section[]
+}
+
+export interface TerminalSection {
+    type: "terminal",
+    metadata: {
+        id: number;
+    },
+    data: TabProps[]
+}
+
+export interface ChatBotSection {
+    type: "chatbot",
+    metadata: {
+        id: number,
+    },
+    data : ChatProps
 }

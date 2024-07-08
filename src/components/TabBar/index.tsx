@@ -1,19 +1,31 @@
-import HeaderTab from "./tab";
+import Tab from "./tab";
 import { TabProps } from "../../types/Tabs";
 
-interface HeaderProps {
+interface TabBarProps {
     Tabs: TabProps[];
     currentTab: TabProps;
     addTabs: (newTab: TabProps) => void,
     setCurrentTab: React.Dispatch<React.SetStateAction<TabProps>>;
 }
 
-export default function Header({ Tabs, addTabs, setCurrentTab, currentTab }: HeaderProps) {
+export default function TabBar({ Tabs, addTabs, setCurrentTab, currentTab }: TabBarProps) {
 
     function handleAddTab() {
         const newTab: TabProps = {
             tabId: Date.now(),
             name: "NewTab",
+            type : 'terminal',
+            blocks: []
+        };
+        addTabs(newTab);
+        setCurrentTab(newTab);
+    }
+
+    function handleAddChatbot(){
+        const newTab: TabProps = {
+            tabId: Date.now(),
+            name: "Chat Bot",
+            type : 'chatbot',
             blocks: []
         };
         addTabs(newTab);
@@ -24,7 +36,7 @@ export default function Header({ Tabs, addTabs, setCurrentTab, currentTab }: Hea
         <div className=" px-4 py-1 flex items-center justify-between">
             <div className="flex gap-2 items-center overflow-scroll">
                 {Tabs.map((item) => (
-                    <HeaderTab
+                    <Tab
                         key={item.tabId}
                         tab={item}
                         currentTab={currentTab}

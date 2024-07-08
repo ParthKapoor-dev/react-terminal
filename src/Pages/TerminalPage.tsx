@@ -7,7 +7,11 @@ interface TabPageProps extends TabProps {
     addBlock: (newBlock: BlockProps) => void
 }
 
-export default function TabPage({ blocks, tabId, addBlock }: TabPageProps) {
+export default function TerminalPage({ tabId, addBlock, blocks, type }: TabPageProps) {
+
+
+    if (type == 'chatbot')
+        return null;
 
     return (
         <div>

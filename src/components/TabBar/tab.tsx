@@ -7,7 +7,7 @@ interface HeaderTabProps {
     setCurrentTab: React.Dispatch<React.SetStateAction<TabProps>>,
 }
 
-export default function HeaderTab({ tab, currentTab, setCurrentTab }: HeaderTabProps) {
+export default function Tab({ tab, currentTab, setCurrentTab }: HeaderTabProps) {
 
     function handleClick() {
         setCurrentTab(tab);

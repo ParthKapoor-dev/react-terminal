@@ -10,7 +10,7 @@ interface TerminalProps {
     // setShowBlocks: React.Dispatch<React.SetStateAction<BlockProps[]>>;
 }
 
-export default function Terminal({ location, tabId, addBlock }: TerminalProps) {
+export default function Terminal({ location, addBlock }: TerminalProps) {
     const [input, setInput] = useState("");
     const [showDropdown, setShowDropdown] = useState(false);
     const [dropdownPosition, setDropdownPosition] = useState({ left: 0 });
@@ -40,7 +40,7 @@ export default function Terminal({ location, tabId, addBlock }: TerminalProps) {
         event.preventDefault();
         const newBlock: BlockProps = {
             id: Date.now(),
-            type: 'terminal',
+            // type: 'terminal',
             location,
             input: input,
             output: "app.tsx   assets   components   index.css   main.tsx   Pages   utils   vite-env.d.ts   xtermTerminal.tsx",

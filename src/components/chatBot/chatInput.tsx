@@ -1,15 +1,16 @@
 import { useState } from "react"
-import { ChatBlockProps } from "../../types/Chat"
 import { dummyChatResponse } from "../../DummyData/dummyChatResponse";
+import { BlockProps } from "../../types/Tabs";
 
 interface ChatInputProps {
-    addChats: (newChatBlock: ChatBlockProps) => void
+    addChats: (newChatBlock: BlockProps) => void
 }
 export default function ChatInput({ addChats }: ChatInputProps) {
 
     const [input, setInput] = useState<string>("");
 
-    function handleAddChats() {
+    function handleAddChats(event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault();
         if (input == "") return;
         const output = dummyChatResponse;
 
@@ -20,6 +21,7 @@ export default function ChatInput({ addChats }: ChatInputProps) {
         };
 
         addChats(newBlock);
+        setInput("");
     }
 
 

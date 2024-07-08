@@ -10,7 +10,7 @@ export const initialApp: Section[] = [
         },
         children: [
             {
-                type: "terminal",
+                type: "editor",
                 metadata: {
                     id: 1001,
                 },
@@ -18,17 +18,48 @@ export const initialApp: Section[] = [
                     {
                         tabId: 1,
                         name: "~/code/mern/terminal",
+                        type : 'terminal',
                         blocks: [
                             {
                                 id: 1,
-                                type: 'terminal',
                                 location: "~/code/mern/react-terminal",
                                 input: "ls src/",
                                 output: "app.tsx   assets   components   index.css   main.tsx   Pages   utils   vite-env.d.ts   xtermTerminal.tsx",
                             },
                             {
                                 id: 2,
-                                type: 'terminal',
+                                location: "~/code/mern/react-terminal",
+                                input: "cd src/",
+                            },
+                        ]
+                    },
+                    // {
+                    //     tabId : 2,
+                    //     name : "ChatBot",
+                    //     type : 'chatbot',
+                    //     blocks : []
+                    // }
+                ]
+            },
+            {
+                type: "editor",
+                metadata: {
+                    id: 1002,
+                },
+                data: [
+                    {
+                        tabId: 1,
+                        name: "~/code/mern/terminal",
+                        type : "terminal",
+                        blocks: [
+                            {
+                                id: 1,
+                                location: "~/code/mern/react-terminal",
+                                input: "ls src/",
+                                output: "app.tsx   assets   components   index.css   main.tsx   Pages   utils   vite-env.d.ts   xtermTerminal.tsx",
+                            },
+                            {
+                                id: 2,
                                 location: "~/code/mern/react-terminal",
                                 input: "cd src/",
                             },
@@ -36,43 +67,6 @@ export const initialApp: Section[] = [
                     }
                 ]
             },
-            // {
-            //     type: "terminal",
-            //     metadata: {
-            //         id: 1002,
-            //     },
-            //     data: [
-            //         {
-            //             tabId: 1,
-            //             name: "~/code/mern/terminal",
-            //             blocks: [
-            //                 {
-            //                     id: 1,
-            //                     type: 'terminal',
-            //                     location: "~/code/mern/react-terminal",
-            //                     input: "ls src/",
-            //                     output: "app.tsx   assets   components   index.css   main.tsx   Pages   utils   vite-env.d.ts   xtermTerminal.tsx",
-            //                 },
-            //                 {
-            //                     id: 2,
-            //                     type: 'terminal',
-            //                     location: "~/code/mern/react-terminal",
-            //                     input: "cd src/",
-            //                 },
-            //             ]
-            //         }
-            //     ]
-            // },
-            {
-                type: "chatbot",
-                metadata: {
-                    id: 501,
-                },
-                data: {
-                    chatId : 1001,
-                    chatBlocks : []
-                }
-            }
         ]
     }
 ]

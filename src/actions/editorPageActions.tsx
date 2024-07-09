@@ -1,3 +1,4 @@
+import { Section, updateType } from "../types/app";
 import { BlockProps, TabProps } from "../types/Tabs";
 
 export function addBlock(
@@ -27,11 +28,12 @@ export function deleteTab(
     tabId: number,
     Tabs: TabProps[],
     setTabs: (tabs: TabProps[]) => void,
-    setCurrentTab: React.Dispatch<React.SetStateAction<TabProps>>
+    setCurrentTab: React.Dispatch<React.SetStateAction<TabProps>>,
+    setChildren: (update: updateType) => void
 ) {
 
     if (Tabs.length == 1)
-        return;
+        deleteChild(setChildren);
 
     const updatedTabs = Tabs.filter(tab => {
         if (tab.tabId === tabId) return false;
@@ -53,6 +55,7 @@ export function onDragOver(
     setDragover: React.Dispatch<React.SetStateAction<Boolean>>
 
 ) {
+    console.log(event);
     setDragover(true);
     event.preventDefault();
 }
@@ -65,4 +68,27 @@ export function onDrop(
     setDragover(false);
     const newTab: TabProps = JSON.parse(event.dataTransfer.getData('text/plain'));
     handleAddTabs({ ...newTab, tabId: Date.now() });
+}
+
+
+export function addChild(
+    Tab: TabProps,
+    setChildren: (update: updateType, child: Section) => void,
+    type: updateType
+) {
+    const newChild: Section = {
+        type: 'editor',
+        metadata: {
+            id: Date.now()
+        },
+        data: [Tab]
+    };
+    setChildren(type, newChild);
+}
+
+
+export function deleteChild(
+    setChildren: (update: updateType) => void
+) {
+    setChildren('delete');
 }

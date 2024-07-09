@@ -4,8 +4,9 @@ export interface AppState {
     windows: Section[]
 }
 
-export type Section = EditorSection | ParentSection
+export type Section = EditorSection | ParentSection;
 
+export type updateType = 'addTop' | 'addLeft' | 'addRight' | 'addBottom' | 'delete';
 
 export interface ParentSection {
     type: "parent",

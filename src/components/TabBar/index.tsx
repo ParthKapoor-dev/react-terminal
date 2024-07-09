@@ -6,10 +6,14 @@ interface TabBarProps {
     currentTab: TabProps;
     addTabs: (newTab: TabProps) => void,
     setCurrentTab: React.Dispatch<React.SetStateAction<TabProps>>;
-    deleteTab: (tabId: number) => void
+    deleteTab: (tabId: number) => void,
+    deleteChild: () => void
+    onDragOver: (event: React.DragEvent<HTMLDivElement>) => void
+    onDrop: (event: React.DragEvent<HTMLDivElement>) => void
+    onDragLeave: () => void
 }
 
-export default function TabBar({ Tabs, addTabs, setCurrentTab, currentTab, deleteTab }: TabBarProps) {
+export default function TabBar({ Tabs, addTabs, setCurrentTab, currentTab, deleteTab, onDragOver, onDragLeave, onDrop }: TabBarProps) {
 
     function handleAddTab() {
         const newTab: TabProps = {
@@ -23,8 +27,12 @@ export default function TabBar({ Tabs, addTabs, setCurrentTab, currentTab, delet
     }
 
     return (
-        <div className=" px-4 py-1 flex items-center justify-between">
-            <div className="flex gap-2 items-center overflow-scroll">
+        <div className="px-4 py-1 flex items-center justify-between"
+        onDragOver={onDragOver}
+        onDrop={onDrop}
+        onDragLeave={onDragLeave}
+        >
+            <div className="flex gap-2 items-center overflow-hidden">
                 {Tabs.map((item) => (
                     <Tab
                         key={item.tabId}

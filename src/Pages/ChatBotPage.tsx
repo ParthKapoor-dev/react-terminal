@@ -1,14 +1,28 @@
+import { useState } from "react";
 import ChatBlock from "../components/chatBot/chatBlock";
 import ChatInput from "../components/chatBot/chatInput";
+import { updateType } from "../types/app";
 import { BlockProps, TabProps } from "../types/Tabs";
+import Splits from "../components/Split";
 
 interface ChatBotScreenProps extends TabProps {
     addChats: (newChats: BlockProps) => void
+    addChild: (Tab: TabProps, type: updateType) => void
 }
-export default function ChatbotPage({  blocks , addChats }: ChatBotScreenProps) {
+export default function ChatbotPage({ blocks, addChats, addChild }: ChatBotScreenProps) {
+
+    const [dragover, setDragover] = useState<boolean>(false);
+
+    function handleDragOver() {
+        setDragover(true);
+    }
+
+    function handleDragLeave() {
+        setDragover(false);
+    }
 
     return (
-        <div className="h-[96vh] w-full overflow-hidden">
+        <div className="h-[96vh] w-full overflow-hidden relative" onDragOver={handleDragOver} onDragLeave={handleDragLeave}>
             <div className="flex flex-col bg-white dark:bg-black h-full rounded py-2 px-4 overflow-scroll">
 
                 <div className="text-2xl font-semibold mb-2">
@@ -23,6 +37,8 @@ export default function ChatbotPage({  blocks , addChats }: ChatBotScreenProps) 
 
                 <ChatInput addChats={addChats} />
             </div>
+            <Splits dragover={dragover} setDragover={setDragover} addChild={addChild} />
+
         </div>
     )
 }

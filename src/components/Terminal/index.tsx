@@ -1,6 +1,6 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "../../utils/cn";
-import { TabProps, BlockProps } from "../../types/Tabs";
+import { BlockProps } from "../../types/Tabs";
 
 
 interface TerminalProps {
@@ -17,6 +17,14 @@ export default function Terminal({ location, addBlock }: TerminalProps) {
     const inputRef = useRef<HTMLInputElement | null>(null);
     const locationRef = useRef<HTMLDivElement | null>(null);
     const [selected, setSelected] = useState<number>(0);
+
+    useEffect(() => {
+        const page = document.querySelector('.page');
+        page?.scrollTo({
+            top : page.scrollHeight,
+            behavior : 'smooth'
+        });
+    })
 
     function handleKeys(event: React.KeyboardEvent<HTMLInputElement>) {
         if (!showDropdown) return;

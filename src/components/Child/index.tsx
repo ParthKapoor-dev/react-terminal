@@ -44,12 +44,12 @@ export default function Child({ state, setApp, parentIds }: ChildProps) {
                         console.log(newParentIds);
                         const parentSection = findSection(updatedApp.windows, newParentIds, state.metadata.id, 'parent');
                         console.log(parentSection);
-                        if(parentSection && parentSection.type == 'parent'){
-                            const childIndex = parentSection.children.findIndex( c =>
+                        if (parentSection && parentSection.type == 'parent') {
+                            const childIndex = parentSection.children.findIndex(c =>
                                 c.metadata.id == section.metadata.id
                             );
                             console.log(childIndex);
-                            parentSection.children.splice(childIndex , 1);
+                            parentSection.children.splice(childIndex, 1);
                             // console.log(updatedApp)
                         }
                     }
@@ -97,9 +97,7 @@ export default function Child({ state, setApp, parentIds }: ChildProps) {
         return (
             <div className={cn("flex flex-wrap basis-0 flex-grow h-full w-full gap-2 ", state.metadata.split === "ver" ? "flex-col" : "flex-row")}>
                 {state.children.map((child) => (
-                    // <div key={child.metadata.id} className=" flex grow flex-basis-0">
-                        <Child state={child} setApp={setApp} parentIds={newParentIds} />
-                    // </div>
+                    <Child state={child} setApp={setApp} parentIds={newParentIds} />
                 ))}
             </div>
         );

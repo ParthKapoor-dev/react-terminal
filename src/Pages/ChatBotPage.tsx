@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ChatBlock from "../components/chatBot/chatBlock";
 import ChatInput from "../components/chatBot/chatInput";
 import { updateType } from "../types/app";
@@ -12,6 +12,15 @@ interface ChatBotScreenProps extends TabProps {
 export default function ChatbotPage({ blocks, addChats, addChild }: ChatBotScreenProps) {
 
     const [dragover, setDragover] = useState<boolean>(false);
+    const pageRef = useRef<HTMLDivElement | null>(null);
+
+    useEffect(() => {
+        console.log('useeffect')
+        pageRef.current?.scrollTo({
+            top: pageRef.current.scrollHeight,
+            behavior: 'smooth'
+        });
+    })
 
     function handleDragOver() {
         setDragover(true);
@@ -23,7 +32,7 @@ export default function ChatbotPage({ blocks, addChats, addChild }: ChatBotScree
 
     return (
         <div className="h-[96vh] w-full overflow-hidden relative" onDragOver={handleDragOver} onDragLeave={handleDragLeave}>
-            <div className="flex flex-col bg-white dark:bg-black h-full rounded py-2 px-4 overflow-scroll">
+            <div className="flex flex-col bg-white dark:bg-black h-full rounded py-2 px-4 overflow-scroll" ref={pageRef}>
 
                 <div className="text-2xl font-semibold mb-2">
                     Chat Bot

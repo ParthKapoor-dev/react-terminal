@@ -12,7 +12,7 @@ interface TabPageProps extends TabProps {
     deleteTab: (tabId: number) => void
 }
 
-export default function TerminalPage({ tabId, addBlock, blocks, type, addChild, deleteTab }: TabPageProps) {
+export default function TerminalPage({ tabId, addBlock, blocks, type, addChild }: TabPageProps) {
 
     const [dragover, setDragover] = useState<boolean>(false);
 
@@ -25,7 +25,7 @@ export default function TerminalPage({ tabId, addBlock, blocks, type, addChild, 
         return null;
 
     return (
-        <div className="relative h-full overflow-hidden" onDragOver={handleDragOver} >
+        <div className="relative h-full overflow-auto page" onDragOver={handleDragOver} >
             <div>
                 {blocks.map(item => (
                     <Block key={item.id} {...item} />

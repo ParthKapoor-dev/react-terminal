@@ -28,6 +28,8 @@ export default function App() {
         const savedApp = localStorage.getItem('windows');
         return savedApp ? JSON.parse(savedApp) : { windows: initialApp }
     });
+    
+    console.log('Hello World , this is quite nice')
 
     useEffect(() => {
         localStorage.setItem('windows', JSON.stringify(app));
